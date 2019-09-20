@@ -12,7 +12,7 @@ function AddUser(e) {
         data: form.serialize(),
         success: function (response) {
             console.log(response);
-            $('#content').load("{{url_for('base')}} #content>*");
+            $('#content').load("https://jbti-twitoff.herokuapp.com/ #content>*");
             $(form).show();
             $('.loader').hide();
         },
