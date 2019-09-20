@@ -51,7 +51,7 @@ def create_app():
             message = '"{}" is more likely to be said by {} than {}'.format(
                 request.values['tweet_text'], user1 if prediction else user2,
                 user2 if prediction else user1)
-            return render_template('prediction.html', title='Prediction', message=message)
+            return message
 
     # Create route to allow user to reset the database
     @app.route('/reset')
