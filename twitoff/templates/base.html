@@ -35,7 +35,7 @@
                 {% block content %}
                 <h1>{{ title }}</h1>
                 <!-- create form to compare users -->
-                <form action="/compare" method="post">
+                <form id="compareuser" action="#" method="post">
                     <!-- User 1 dropdown -->
                     <select name="user1">
                         {% for user in users %}
@@ -50,7 +50,7 @@
                     </select>
                     <!-- Create text box for end-user to type fake tweet -->
                     <input type="text" name="tweet_text" placeholder="Tweet text to predict">
-                    <input type="submit" value="Compare Users">
+                    <input type="submit" value="Compare Users" onclick="CompareUser(event)>
                 </form>
             </div>
             <div class="col-md-1"></div>

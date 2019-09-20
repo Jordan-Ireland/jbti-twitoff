@@ -53,13 +53,27 @@ function ShowTweets(e) {
     });    
 }
 
+function Compare(e) {
+    e.preventDefault();
+    form = $('#compareuser');
+
+    $.ajax({
+        url: 'compare',
+        type: 'post',
+        dataType: 'json',
+        data: form.serialize(),
+        success: function (response) {
+            console.log(response);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
     if (event.target == document.getElementById("tweetModal")) {
         document.getElementById("tweetModal").style.display = "none";
     }
 }
-
-$(document).ready(function () {
-
-});
