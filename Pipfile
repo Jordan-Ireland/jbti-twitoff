@@ -9,12 +9,12 @@ verify_ssl = true
 flask = "*"
 flask-sqlalchemy = "*"
 jinja2 = "*"
-psycopg2 = "*"
 basilica = "*"
 tweepy = "*"
 scikit-learn = "*"
 gunicorn = "*"
 python-decouple = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.7"

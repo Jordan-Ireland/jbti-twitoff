@@ -1,6 +1,6 @@
 """Main app/routing file for TwitOff."""
 from decouple import config
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from .models import DB, User
 from .createtables import Create
 from .predict import predict_user
@@ -26,15 +26,19 @@ def create_app():
     @app.route('/user/<name>', methods=['GET'])
     def user(name=None, message=''):
         name = name or request.values['user_name']
+        send_tweets = []
         try:
             if request.method == 'POST':
                 add_or_update_user(name)
-                message = 'User {} successfully added!'.format(name)
+                message = 0
             tweets = User.query.filter(User.name == name).one().tweets
+            for tweet in tweets:
+                send_tweets.append({'id':tweet.id,'text':tweet.text})
+            message = 0;
         except Exception as e:
-            message = 'Error adding {}: {}'.format(name, e)
+            message = 1;
             tweets = []
-        return render_template('user.html', title=name, tweets=tweets, messgae=message)
+        return jsonify({'name':name, 'tweets':send_tweets, 'message':message})
 
     # Create route to display which user is most likely to tweet the fake tweet
     @app.route('/compare', methods=['POST'])

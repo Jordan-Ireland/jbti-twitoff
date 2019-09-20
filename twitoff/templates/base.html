@@ -1,76 +1,92 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
     <title>TwitOff - {{ title }}</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- adding link to picnic css stylesheet -->
-    <link rel="stylesheet" href="https://unpkg.com/picnic"/>
-  </head>
-  <body>
+    <link rel="stylesheet" href="https://unpkg.com/picnic" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}" type="text/css" />
+</head>
+<body>
     <nav>
-      <a href="/" class="brand"><span>TwitOff!</span></a>
-
-      <!-- Create menu -->
-      <input id="bmenub" type="checkbox" class="show">
-      <label for="bmenub" class="burger pseudo button">Menu</label>
-
-      <div class="menu">
-        <a href="/update" class="button warning">Update Tweets</a>
-        <a href="/reset" class="button error">Reset Database</a>
-      </div>
+        <a href="/" class="brand"><span>TwitOff!</span></a>
+        <!-- Create menu -->
+        <input id="bmenub" type="checkbox" class="show">
+        <label for="bmenub" class="burger pseudo button">Menu</label>
+        <div class="menu">
+            <a href="/update" class="button warning">Update Tweets</a>
+            <a href="/reset" class="button error">Reset Database</a>
+        </div>
     </nav>
+    <div class="container" id="content">
+        <div id="tweetModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Modal Header</h2>
+                    <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                {% block content %}
+                <h1>{{ title }}</h1>
+                <!-- create form to compare users -->
+                <form action="/compare" method="post">
+                    <!-- User 1 dropdown -->
+                    <select name="user1">
+                        {% for user in users %}
+                        <option value="{{ user.name }}">{{ user.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <!-- User 2 dropdown -->
+                    <select name="user2">
+                        {% for user in users %}
+                        <option value="{{ user.name }}">{{ user.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <!-- Create text box for end-user to type fake tweet -->
+                    <input type="text" name="tweet_text" placeholder="Tweet text to predict">
+                    <input type="submit" value="Compare Users">
+                </form>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h2>Search For Twitter Users</h2>
+                <div class="loader">
+                    <img src="{{ url_for('static',filename='images/loading.gif') }}" />
+                </div>
 
-    <article class="flex two" style="padding: 3em 1em;">
-      {% block content %}
-      <div>
-        <h1>{{ title }}</h1>
+                <!-- create form to add Twitter users -->
+                <form id="createuser" action="#" method="post">
+                    <input type="text" name="user_name" placeholder="User to add">
+                    <input type="submit" value="Add User" onclick="AddUser(event)">
+                </form>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- show a list of recent comparisons -->
+                <h3>Users in Database:</h3>
+                <div class="users">
+                    {% for user in users %}
+                    <button data-user="{{ user.name }}" onclick="ShowTweets(this)" class="showtweets"><span class="stack">{{ user.name }}</span></button>
+                    {% endfor %}
+                </div>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-        <!-- create form to compare users -->
-        <form action="/compare" method="post">
-
-          <!-- User 1 dropdown -->
-          <select name="user1">
-            {% for user in users %}
-            <option value="{{ user.name }}">{{ user.name }}</option>
-            {% endfor %}
-          </select>
-
-          <!-- User 2 dropdown -->
-          <select name="user2">
-            {% for user in users %}
-            <option value="{{ user.name }}">{{ user.name }}</option>
-            {% endfor %}
-          </select>
-
-          <!-- Create text box for end-user to type fake tweet -->
-          <input type="text" name="tweet_text" placeholder="Tweet text to predict">
-          <input type="submit" value="Compare Users">
-        </form>
-
-        <!-- show a list of recent comparisons -->
-        <h3>Recent comparisons:</h3>
-        {% for comparison in comparisons %}
-        <span class="stack">{{ comparison }}</span>
-        {% endfor %}
-      </div>
-
-      <!-- show a list of available users -->
-      <div>
-        <h2>Users</h2>
-        {% for user in users %}
-        <a href="/user/{{ user.name }}"><span class="stack">{{ user.name }}</span></a>
-        {% endfor %}
-
-        <!-- create form to add Twitter users -->
-        <form action="/user" method="post">
-          <input type="text" name="user_name" placeholder="User to add">
-          <input type="submit" value="Add User">
-        </form>
-      </div>
-      {% endblock %}
-    </article>
-
-    <!-- I'm not sure what the below code does since it's inside a comment -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/umbrellajs"/> -->
-  </body>
+    <script src="{{ url_for('static',filename='js/main.js') }}" type="text/javascript"></script>
+</body>
 </html>
