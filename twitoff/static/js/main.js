@@ -56,14 +56,17 @@ function ShowTweets(e) {
 function Compare(e) {
     e.preventDefault();
     form = $('#compareuser');
+    form.hide();
+    $('#answerloading').show();
 
     $.ajax({
         url: 'compare',
         type: 'post',
-        dataType: 'json',
         data: form.serialize(),
         success: function (response) {
-            console.log(response);
+            $('#compareanswer').html(response);
+            form.show();
+            $('#answerloading').hide();
         },
         error: function (error) {
             console.log(error);

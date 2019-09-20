@@ -16,6 +16,10 @@
     margin-top:3em;
 }
 
+form select, form input{
+    margin-bottom:5px;
+}
+
 /* The Close Button */
 .close {
     color: #aaa;

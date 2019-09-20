@@ -13,10 +13,10 @@
         <a href="/" class="brand"><span>TwitOff!</span></a>
         <!-- Create menu -->
         <input id="bmenub" type="checkbox" class="show">
-        <label for="bmenub" class="burger pseudo button">Menu</label>
+        <label for="bmenub" class="burger pseudo button">=</label>
         <div class="menu">
-            <a href="/update" class="button warning">Update Tweets</a>
-            <a href="/reset" class="button error">Reset Database</a>
+            <a href="http://jordan-ireland.com" class="button">Website</a>
+            <a href="https://github.com/Jordan-Ireland" class="button error">Twitter</a>
         </div>
     </nav>
     <div class="container" id="content">
@@ -33,7 +33,10 @@
         <div class="row">
             <div class="col-md-5">
                 {% block content %}
-                <h1>{{ title }}</h1>
+                <h2>{{ title }}</h2>
+                <div id="answerloading" class="loader">
+                    <img src="{{ url_for('static',filename='images/loading.gif') }}" />
+                </div>
                 <!-- create form to compare users -->
                 <form id="compareuser" action="#" method="post">
                     <!-- User 1 dropdown -->
@@ -52,6 +55,7 @@
                     <input type="text" name="tweet_text" placeholder="Tweet text to predict">
                     <input type="submit" value="Compare Users" onclick="Compare(event)">
                 </form>
+                <p id="compareanswer"></p>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-5">
