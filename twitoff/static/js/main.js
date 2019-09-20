@@ -12,7 +12,7 @@ function AddUser(e) {
         data: form.serialize(),
         success: function (response) {
             console.log(response);
-            $('#content').load(document.URL + ' #content>*');
+            $('#content').load("{{url_for('user')}} #content>*");
             $(form).show();
             $('.loader').hide();
         },
