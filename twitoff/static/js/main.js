@@ -6,7 +6,7 @@ function AddUser(e) {
     $('.loader').show();
 
     $.ajax({
-        url: 'user',
+        url: "{{url_for('user')}}",
         type: 'post',
         dataType: 'json',
         data: form.serialize(),
@@ -28,7 +28,7 @@ function ShowTweets(e) {
     // Get the modal
     user = $(e).data('user');
     $.ajax({
-        url: 'user/' + user,
+        url: "{{url_for('user')}}/" + user,
         type: 'get',
         dataType: 'json',
         success: function (response) {

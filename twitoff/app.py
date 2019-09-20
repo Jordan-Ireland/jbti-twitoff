@@ -2,7 +2,6 @@
 from decouple import config
 from flask import Flask, render_template, request, jsonify
 from .models import DB, User
-from .createtables import Create
 from .predict import predict_user
 from .twitter import add_or_update_user, update_all_users
 
