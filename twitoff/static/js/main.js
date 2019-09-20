@@ -6,13 +6,13 @@ function AddUser(e) {
     $('.loader').show();
 
     $.ajax({
-        url: "{{url_for('user')}}",
+        url: 'user',
         type: 'post',
         dataType: 'json',
         data: form.serialize(),
         success: function (response) {
             console.log(response);
-            $('#content').load("https://jbti-twitoff.herokuapp.com/ #content>*");
+            $('#content').load(document.URL + ' #content>*');
             $(form).show();
             $('.loader').hide();
         },
@@ -28,7 +28,7 @@ function ShowTweets(e) {
     // Get the modal
     user = $(e).data('user');
     $.ajax({
-        url: "{{url_for('user')}}/" + user,
+        url: 'user/' + user,
         type: 'get',
         dataType: 'json',
         success: function (response) {
