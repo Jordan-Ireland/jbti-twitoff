@@ -6,13 +6,12 @@ function AddUser(e) {
     $('.loader').show();
 
     $.ajax({
-        url: 'user',
+        url: 'user/',
         type: 'post',
         dataType: 'json',
         data: form.serialize(),
         success: function (response) {
             console.log(response);
-            $('#content').load(document.URL + ' #content>*');
             $(form).show();
             $('.loader').hide();
         },
