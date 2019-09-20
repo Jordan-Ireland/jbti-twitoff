@@ -3,7 +3,7 @@ function AddUser(e) {
     form = $('#createuser');
 
     $(form).hide();
-    $('.loader').show();
+    $('#userloading').show();
 
     $.ajax({
         url: 'user',
@@ -14,7 +14,7 @@ function AddUser(e) {
             console.log(response);
             $('#content').load(document.URL + ' #content>*');
             $(form).show();
-            $('.loader').hide();
+            $('#userloading').hide();
         },
         error: function (error) {
             console.log(error);
